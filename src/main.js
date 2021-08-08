@@ -2,5 +2,16 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import ElementPlus from "element-plus";
+import 'element-plus/lib/el-collapse';
+import 'element-plus/lib/el-collapse-item';
+import 'element-plus/lib/el-collapse-transition';
 
-createApp(App).use(store).use(router).mount('#app')
+
+
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+app.use(ElementPlus);
+app.mount('#app');

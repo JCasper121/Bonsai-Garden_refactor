@@ -1,10 +1,22 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/order">Order</router-link>
   </div>
+  <Banner/>
   <router-view/>
 </template>
+
+ <script>
+ import Banner from "./components/Banner.vue";
+
+  export default {
+    name: "App",
+    components: {
+      Banner
+    }
+  }
+</script>
 
 <style>
 #app {
@@ -17,14 +29,16 @@
 
 #nav {
   padding: 30px;
+  background-color: rgb(144,179,30);
+
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #535f6b;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #15202b;
 }
 </style>
