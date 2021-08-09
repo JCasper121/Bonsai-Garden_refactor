@@ -7,15 +7,45 @@
                 <el-collapse title="Menu" accordion>
                     <el-collapse-item title="Appetizers" name="1">
                         <div v-for="item in appetizers" :key="item.id" class="collapse-item-content">
-                            <div class="flex-item">
-                                <p class="item-title">{{item.title}}</p>
-                            </div>
+                            <div class="appetizer-item menu-item">
 
-                            <div class="flex-item">
-                                <p>{{formatPrice(item.price)}}</p>
-                            </div>
+                                <div class="flex-item">
+                                    <p class="item-title">{{item.title}}</p>
+                                </div>
 
-                            <div class="flex-item">
+                                <div class="flex-item">
+                                    <p>{{formattedPrice(item.price)}}</p>
+                                </div>
+
+                                <div class="flex-item">
+                                        <div class="quantity-wrapper">
+                                            <span  @click="decrementQuantity(item.id)" class="icon is-small">
+                                                <i class="fas fa-minus" ></i>
+                                            </span>
+                                            <h3 class="quantity">{{ order[item.id] }}</h3>
+                                            <span  @click="incrementQuantity(item.id)" class="icon is-small">
+                                                <i class="fas fa-plus" ></i>
+                                            </span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-collapse-item>
+
+                
+                    <el-collapse-item title="Main Dishes" name="2">
+                        <div v-for="item in mains" :key="item.id" class="collapse-item-content">
+                            <div class="main-item menu-item">
+
+                                <div class="flex-item">
+                                    <p class="item-title">{{item.title}}</p>
+                                </div>
+
+                                <div class="flex-item">
+                                    <p>{{formattedPrice(item.price)}}</p>
+                                </div>
+
+                                <div class="flex-item">
                                     <div class="quantity-wrapper">
                                         <span  @click="decrementQuantity(item.id)" class="icon is-small">
                                             <i class="fas fa-minus" ></i>
@@ -25,30 +55,6 @@
                                             <i class="fas fa-plus" ></i>
                                         </span>
                                     </div>
-                            </div>
-                        </div>
-                    </el-collapse-item>
-
-                
-                    <el-collapse-item title="Main Dishes" name="2">
-                        <div v-for="item in mains" :key="item.id" class="collapse-item-content">
-                            <div class="flex-item">
-                                <p class="item-title">{{item.title}}</p>
-                            </div>
-
-                            <div class="flex-item">
-                                <p>{{formatPrice(item.price)}}</p>
-                            </div>
-
-                            <div class="flex-item">
-                                <div class="quantity-wrapper">
-                                    <span  @click="decrementQuantity(item.id)" class="icon is-small">
-                                        <i class="fas fa-minus" ></i>
-                                    </span>
-                                    <h3 class="quantity">{{ order[item.id] }}</h3>
-                                    <span  @click="incrementQuantity(item.id)" class="icon is-small">
-                                        <i class="fas fa-plus" ></i>
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -57,23 +63,26 @@
 
                     <el-collapse-item title="Sides" name="3">
                         <div v-for="item in sides" :key="item.id" class="collapse-item-content">
-                            <div class="flex-item">
-                                <p class="item-title">{{item.title}}</p>
-                            </div>
+                            <div class="side-item menu-item">
 
-                            <div class="flex-item">
-                                <p>{{formatPrice(item.price)}}</p>
-                            </div>
+                                <div class="flex-item">
+                                    <p class="item-title">{{item.title}}</p>
+                                </div>
 
-                            <div class="flex-item">
-                                <div class="quantity-wrapper">
-                                    <span  @click="decrementQuantity(item.id)" class="icon is-small">
-                                        <i class="fas fa-minus" ></i>
-                                    </span>
-                                    <h3 class="quantity">{{ order[item.id] }}</h3>
-                                    <span  @click="incrementQuantity(item.id)" class="icon is-small">
-                                        <i class="fas fa-plus" ></i>
-                                    </span>
+                                <div class="flex-item">
+                                    <p>{{formattedPrice(item.price)}}</p>
+                                </div>
+
+                                <div class="flex-item">
+                                    <div class="quantity-wrapper">
+                                        <span  @click="decrementQuantity(item.id)" class="icon is-small">
+                                            <i class="fas fa-minus" ></i>
+                                        </span>
+                                        <h3 class="quantity">{{ order[item.id] }}</h3>
+                                        <span  @click="incrementQuantity(item.id)" class="icon is-small">
+                                            <i class="fas fa-plus" ></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +93,7 @@
 </template>
 
 <script>
+import shared from "../helper-functions/shared";
 
 export default {
     name: "Menu",
@@ -95,6 +105,10 @@ export default {
             menu: [],
              order: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         }
+    },
+    created() {
+        console.log("Shared: ", shared);
+        this.formattedPrice = shared.formatPrice;
     },
     mounted() {
         const menu = this.$store.state.menu;
@@ -130,16 +144,6 @@ export default {
                 this.order[id] --;
             }
         },
-        formatPrice(decimal) {
-            const formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2
-            })
-
-            var formattedPrice = formatter.format(decimal);
-            return formattedPrice;
-        }
     },
     computed: {
     }
@@ -147,10 +151,10 @@ export default {
 </script>
 
 <style>
-
+/* 
 .el-collapse {
     min-width: 400px;
-}
+} */
 
 .el-collapse-item {
     border-bottom: 4px solid rgb(144,179,30);
@@ -162,16 +166,27 @@ export default {
     padding: 1em 0;
 }
 
+.el-collapse-item:nth-child(1) {
+    border-top: 4px solid rgb(144,179,30);
+
+}
+
+.collapse-item-content:nth-of-type(odd) {
+    background-color: rgba(144,179,30, 0.3);
+}
+
 .el-collapse-item__content {
     font-size: 1em;
 }
 
-.collapse-item-content {
-    height: 2.5em;
+.menu-item {    
+    max-height: 2.5em;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 0.5em 0;
 }
+
 
 .flex-item {
     width: 33%;
@@ -195,13 +210,13 @@ export default {
 
 .icon {
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.12),0 0 6px rgba(0,0,0,0.04);
-    background-color:rgba(0,0,0,0.12);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12),0 0 6px rgba(0,0,0,0.04);
+    background-color:rgb(184, 171, 171);
     border-radius: 5px;
 }
 
 .icon:active {
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.12),0 0 6px rgba(0,0,0,0.04);
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.12),0 0 6px rgba(0,0,0,0.04);
 
 }
 

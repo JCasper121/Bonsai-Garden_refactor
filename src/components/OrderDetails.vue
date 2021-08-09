@@ -5,20 +5,30 @@
         </h1>
         <div class="order-details">
             <el-collapse title="Order Details" v-model="activeNames" accordion>
-              <el-collapse-item :title="formattedPrice" name="1" v-show="true">
+              <el-collapse-item :title="formattedPrice(total)" name="1" v-show="true" class="order-quantities">
+                
+                <div v-for="item in orderList" :key="item.id" class="order-list-item">
+                  <div class="flex-item">
+                    {{item.title}}
+                  </div>
+                  
+                  <div class="flex-item quantity-wrapper"> 
+                     <div class="item-quantity"><i class="fas fa-times"></i> {{item.quantity}}</div>
+                  </div>
+                </div>
               </el-collapse-item>
 
           
               <el-collapse-item title="Takeout/Delivery" name="2">
-                <div class="collapse-item-content">
-                  <div class="form-group">
-                    <h3>Delivery</h3>
-                    <input type="radio" name="delivery" value="delivery"> 
-                  </div>
-                  <div class="form-group">
-                    <h3>Takeout</h3>
-                    <input type="radio" name="delivery" value="takeout">
-                  </div>
+                <div class="radio-button-wrapper">
+                      <el-radio v-model="deliveryBool" name="delivery" :value="true" :label="true"> Delivery</el-radio>
+                      <el-radio v-model="deliveryBool" name="delivery" :value="false" :label="false"> Takeout</el-radio>
+                </div>
+                <!-- <button @click.prevent="logDeliveryBool">Log</button> -->
+                <div id="map-container" v-if="deliveryBool">
+                    <!-- <span class="warning">The maximum delivery distance is 5 miles</span><br> -->
+                    Map
+                    <GoogleMap/>
                 </div>
               </el-collapse-item>
 
@@ -34,12 +44,22 @@
 </template>
 
 <script>
+import shared from "../helper-functions/shared";
+import GoogleMap from "./GoogleMap.vue";
+
 export default {
     name: "OrderDetails",
+    components: {
+      GoogleMap
+    },
     data() {
       return {
         activeNames: ["1"],
+        deliveryBool: false,
       }
+    },
+    created() {
+      this.formattedPrice = shared.formatPrice;
     },
     computed: {
       orderList() {
@@ -59,17 +79,12 @@ export default {
           }
           return total;
       },
-      formattedPrice() {
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-        })
-
-        var formattedPrice = formatter.format(this.total);
-        return formattedPrice;
-    }
   },
+  methods: {
+    logDeliveryBool() {
+      console.log("Delivery Bool: ", this.deliveryBool);
+    }
+  }
 
 
 }
@@ -78,15 +93,45 @@ export default {
 <style>
 .header {
   font-size: 2.5em;
-  border-bottom: 4px solid rgb(144,179,30);
 }
 .el-collapse-item__header {
   font-size: 1.5em;
+  padding-bottom: 0.3em;
 }
+
+.radio-button-wrapper {
+  display: flex;
+  justify-content: space-around;
+
+}
+
 
 .order-wrapper {
   display: flex;
   flex-direction: column;
+}
+
+.order-quantities {
+  padding: 1em;
+
+}
+
+.order-list-item {
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+  padding: 0.3em;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.quantity-wrapper {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.order-list-item:nth-of-type(odd) {
+  background-color: rgba(144,179,30, 0.3);
 }
 
 

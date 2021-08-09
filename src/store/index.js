@@ -133,7 +133,8 @@ export default createStore({
         
       ],
       currentOrder: [],
-      deliveryAddress: ''
+      deliveryAddress: '',
+      googleMap: null
   },
   // synchronous
   mutations: {
@@ -170,6 +171,10 @@ export default createStore({
 
     SET_DELIVERY(state, payload) {
       state.deliveryAddress = payload;
+    },
+
+    SET_MAP(state, payload) {
+      state.googleMap = payload;
     }
   },
   actions: {
@@ -181,6 +186,9 @@ export default createStore({
     },
     setDelivery(context, payload) {
       context.commit('SET_DELIVERY', payload)
+    },
+    setMap(context, payload) {
+      context.commit("SET_MAP", payload);
     }
   },
   modules: {
@@ -188,5 +196,6 @@ export default createStore({
   getters: {
     getMenu: state => state.menu,
     getOrder: state => state.currentOrder,
+    getMap: state => state.googleMap,
   }
 })
