@@ -19,32 +19,34 @@
                       </div>
                     </div>
                   </div>
+
                 </el-collapse-item>
 
             
                 <el-collapse-item title="Takeout/Delivery" name="2">
-                    <div class="radio-button-wrapper">
-                        <div class="btn-group col-lg-3 radio-group">
-                          <label class="radio-label" for="takeout">Takeout</label>
-                          <input id="takeout" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="false">
-                          <label for="delivery">Delivery</label>
-                          <input id="delivery" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="true">
-                        </div>
-                    </div>
 
-                    <div 
-                      id="map-container" 
-                      class="hide">
-                      Map
-                        <GoogleMap/>
-                    </div>
+                      <div class="radio-button-wrapper">
+                          <div class="radio-button">
+                            <label class="radio-label" for="takeout">Takeout</label>
+                            <input id="takeout" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="false">
+                          </div>
+                          <div class="radio-button">
+                            <label for="delivery">Delivery</label>
+                            <input id="delivery" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="true">
+                          </div>
+                      </div>
+
+
+                      <div 
+                        id="map-container" 
+                        class="hide">
+                          <GoogleMap/>
+                      </div>
                 </el-collapse-item>
 
 
                 <el-collapse-item title="Checkout" name="3">
-                    <div class="collapse-item-content">
                         Checkout
-                    </div>
                 </el-collapse-item>
             </el-collapse>
         </div>
@@ -70,7 +72,6 @@ export default {
     },
     watch: {
       deliveryBool: function() {
-        console.log("Delivery Bool: ", this.deliveryBool);
         this.showOrHideMap();
       }
     },
@@ -124,7 +125,7 @@ export default {
 .radio-button-wrapper {
   display: flex;
   justify-content: space-around;
-
+  width: 100%;
 }
 
 
@@ -156,8 +157,20 @@ export default {
   background-color: rgba(144,179,30, 0.3);
 }
 
+.delivery {
+  display: flex;
+}
+
+@media  screen and (max-width: 500px) {
+  .delivery{
+    flex-direction: column;
+  }
+}
+
 .hide {
   display: none;
 }
+
+
 
 </style>

@@ -203,7 +203,7 @@ export default {
 }
 
 .icon {
-    padding: 10px;
+    padding: 5px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.12),0 0 6px rgba(0,0,0,0.04);
     background-color:rgb(184, 171, 171);
     border-radius: 5px;
