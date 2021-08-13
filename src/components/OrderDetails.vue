@@ -5,39 +5,47 @@
         </h1>
         <div class="order-details">
             <el-collapse title="Order Details" v-model="activeNames" accordion>
-              <el-collapse-item :title="formattedPrice(total)" name="1" v-show="true" class="order-quantities">
-                
-                <div v-for="item in orderList" :key="item.id" class="order-list-item">
-                  <div class="flex-item">
-                    {{item.title}}
-                  </div>
+                <el-collapse-item :title="formattedPrice(total)" name="1" v-show="true" class="order-quantities">
                   
-                  <div class="flex-item quantity-wrapper"> 
-                     <div class="item-quantity"><i class="fas fa-times"></i> {{item.quantity}}</div>
+                  <div v-for="item in orderList" :key="item.id" class="order-list-item">
+                    <div class="flex-item">
+                      {{item.title}}
+                    </div>
+                    
+                    <div class="flex-item quantity-wrapper"> 
+                      <div class="item-quantity">
+                          <i class="fas fa-times"></i>
+                          {{item.quantity}}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </el-collapse-item>
+                </el-collapse-item>
 
-          
-              <el-collapse-item title="Takeout/Delivery" name="2">
-                <div class="radio-button-wrapper">
-                      <el-radio v-model="deliveryBool" name="delivery" :value="true" :label="true"> Delivery</el-radio>
-                      <el-radio v-model="deliveryBool" name="delivery" :value="false" :label="false"> Takeout</el-radio>
-                </div>
-                <!-- <button @click.prevent="logDeliveryBool">Log</button> -->
-                <div id="map-container" v-if="deliveryBool">
-                    <!-- <span class="warning">The maximum delivery distance is 5 miles</span><br> -->
-                    Map
-                    <GoogleMap/>
-                </div>
-              </el-collapse-item>
+            
+                <el-collapse-item title="Takeout/Delivery" name="2">
+                    <div class="radio-button-wrapper">
+                        <div class="btn-group col-lg-3 radio-group">
+                          <label class="radio-label" for="takeout">Takeout</label>
+                          <input id="takeout" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="false">
+                          <label for="delivery">Delivery</label>
+                          <input id="delivery" class="radioButton" v-model='deliveryBool' type="radio" name="deliveryBool" value="true">
+                        </div>
+                    </div>
+
+                    <div 
+                      id="map-container" 
+                      class="hide">
+                      Map
+                        <GoogleMap/>
+                    </div>
+                </el-collapse-item>
 
 
-              <el-collapse-item title="Checkout" name="3">
-                  <div class="collapse-item-content">
-                      Checkout
-                  </div>
-              </el-collapse-item>
+                <el-collapse-item title="Checkout" name="3">
+                    <div class="collapse-item-content">
+                        Checkout
+                    </div>
+                </el-collapse-item>
             </el-collapse>
         </div>
     </div>
@@ -45,6 +53,7 @@
 
 <script>
 import shared from "../helper-functions/shared";
+// import GoogleMap from "./GoogleMap.vue";
 import GoogleMap from "./GoogleMap.vue";
 
 export default {
@@ -55,7 +64,14 @@ export default {
     data() {
       return {
         activeNames: ["1"],
-        deliveryBool: false,
+        // gets set to false on first update() after mounting
+        deliveryBool: "false",
+      }
+    },
+    watch: {
+      deliveryBool: function() {
+        console.log("Delivery Bool: ", this.deliveryBool);
+        this.showOrHideMap();
       }
     },
     created() {
@@ -81,13 +97,19 @@ export default {
       },
   },
   methods: {
-    logDeliveryBool() {
-      console.log("Delivery Bool: ", this.deliveryBool);
+    showOrHideMap() {
+      //   Keeps toggle-to-show elements in sync
+        if(this.deliveryBool == "true") {
+            document.getElementById("map-container").removeAttribute("class");
+            document.getElementById("address-form").removeAttribute("class");
+        } else {
+          document.getElementById("map-container").setAttribute("class", "hide");
+            document.getElementById("address-form").setAttribute("class", "hide");
+        }
     }
-  }
-
-
+  },
 }
+
 </script>
 
 <style>
@@ -134,5 +156,8 @@ export default {
   background-color: rgba(144,179,30, 0.3);
 }
 
+.hide {
+  display: none;
+}
 
 </style>

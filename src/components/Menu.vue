@@ -145,17 +145,11 @@ export default {
             }
         },
     },
-    computed: {
-    }
+
 }
 </script>
 
 <style>
-/* 
-.el-collapse {
-    min-width: 400px;
-} */
-
 .el-collapse-item {
     border-bottom: 4px solid rgb(144,179,30);
     border-left: 4px solid rgb(144,179,30);
