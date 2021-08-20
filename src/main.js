@@ -7,7 +7,7 @@ import 'element-plus/lib/el-collapse';
 import 'element-plus/lib/el-collapse-item';
 import 'element-plus/lib/el-collapse-transition';
 import 'element-plus/lib/el-radio';
-import VueGoogleMaps from '@fawmi/vue-google-maps';
+// import VueGoogleMaps from '@fawmi/vue-google-maps';
 
 
 
@@ -16,9 +16,9 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(ElementPlus);
-app.use(VueGoogleMaps, {
-    load: {
-        key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-    }
-});
+// app.use(VueGoogleMaps, {
+//     load: {
+//         key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+//     }
+// });
 app.mount('#app');
